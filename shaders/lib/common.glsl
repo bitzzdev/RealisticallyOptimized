@@ -31,7 +31,12 @@ vec3 applyVibrance(vec3 c, float amount) {
 }
 
 float dayFactor(float worldTime) {
-    return clamp(sin((worldTime / 24000.0) * 6.2831853) * 0.5 + 0.5, 0.0, 1.0);
+    float s = sin((worldTime / 24000.0) * 6.2831853);
+    return smoothstep(0.05, 0.25, s);
+}
+
+float sunFactor(float t) {
+    return clamp(t * 1.5, 0.0, 1.0);
 }
 
 #endif

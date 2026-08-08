@@ -12,7 +12,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float near;
 uniform float far;
-uniform float worldTime;
+uniform int worldTime;
 uniform float rainStrength;
 
 #include "lib/common.glsl"
@@ -68,7 +68,7 @@ void doWorldOutline(inout vec3 color, float linearZ0) {
 
 void main() {
     vec4 col = texture2D(colortex0, vTex);
-    float t = dayFactor(worldTime);
+    float t = dayFactor(float(worldTime));
 
     float rawDepth = texture2D(depthtex0, vTex).r;
     float skyMask = step(0.99995, rawDepth);
@@ -85,7 +85,7 @@ void main() {
     float skyBoost = mix(1.35, 1.20, t);
     col.rgb *= mix(1.0, skyBoost, skyMask);
 
-    col.rgb *= mix(0.65, 1.0, t);
+    col.rgb *= mix(0.65, 1.12, t);
 
     float blueFactor = clamp((1.0 - t) * 0.70 + rainStrength * 0.55, 0.0, 1.0);
     vec3 blueTint = vec3(0.86, 0.94, 1.16);

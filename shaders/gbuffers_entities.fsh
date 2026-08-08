@@ -8,7 +8,8 @@ varying vec4 vColor;
 
 uniform sampler2D texture;
 uniform vec3 sunPosition;
-uniform float worldTime;
+uniform int worldTime;
+uniform vec4 entityColor;
 
 #include "lib/common.glsl"
 #include "lib/shadows.glsl"
@@ -23,14 +24,15 @@ void main() {
     float toon = toonRamp(ndotl);
     float shadow = getShadowFactor(vWorldPos);
 
-    float t = dayFactor(worldTime);
+    float t = dayFactor(float(worldTime));
     float tint = mix(NIGHT_TINT, DAY_TINT, t);
     vec3 sunWarm = mix(vec3(1.00, 0.98, 0.95), vec3(1.14, 0.92, 0.72), t);
     float blockLight = clamp(vLm.x, 0.0, 1.0);
     float localLight = pow(blockLight, 1.10) * mix(1.35, 0.80, t);
 
-    vec3 c = albedo.rgb * (0.20 + 0.80 * toon * shadow + localLight);
-    c = applyVibrance(c * sunWarm, VIBRANCE) * tint;
+    vec3 c = albedo.rgb * (mix(0.07, 0.24, t) + 0.80 * toon * shadow * sunFactor(t) + localLight);
+    c = applyVibrance(c * sunWarm, mix(VIBRANCE, 1.0, t)) * tint;
+    c = mix(c, entityColor.rgb, entityColor.a);
 
     gl_FragColor = vec4(c, albedo.a);
 }
