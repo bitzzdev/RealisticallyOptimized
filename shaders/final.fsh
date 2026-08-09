@@ -7,6 +7,7 @@
 varying vec2 vTex;
 
 uniform sampler2D colortex0;
+uniform sampler2D colortex1;
 uniform sampler2D depthtex0;
 uniform float viewWidth;
 uniform float viewHeight;
@@ -84,9 +85,13 @@ void main() {
     float skyBoost = mix(1.50, 1.08, t);
 
     vec3 skyColor = col.rgb * skyBoost;
-    vec3 worldColor = worldTone * mix(0.65, 1.12, t);
+    vec3 worldColor = worldTone * mix(0.80, 1.30, t);
 
-    col.rgb = mix(worldColor, skyColor, skyMask);
+    float cloudMask = texture2D(colortex1, vTex).r;
+    vec3 cloudColor = col.rgb * mix(1.20, 1.05, t);
+
+    vec3 sceneColor = mix(worldColor, skyColor, skyMask);
+    col.rgb = mix(sceneColor, cloudColor, cloudMask);
 
     float blueFactor = clamp((1.0 - t) * 0.70 + rainStrength * 0.55, 0.0, 1.0);
     vec3 blueTint = vec3(0.86, 0.94, 1.16);

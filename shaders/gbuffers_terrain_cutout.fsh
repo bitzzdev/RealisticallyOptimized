@@ -32,7 +32,7 @@ void main() {
     float tint = mix(NIGHT_TINT, DAY_TINT, t);
     vec3 sunWarm = mix(vec3(1.00, 0.98, 0.95), vec3(1.14, 0.92, 0.72), t);
 
-    vec3 c = albedo.rgb * (mix(0.06, 0.22, t) + 0.82 * toon * shadow * sunFactor(t) + baked * 0.35 + localLight);
+    vec3 c = albedo.rgb * (mix(0.07, 0.26, t) + 0.82 * toon * shadow * sunFactor(t) + baked * 0.35 + localLight);
     c = applyVibrance(c * sunWarm, mix(VIBRANCE, 1.0, t)) * tint;
 
     gl_FragColor = vec4(c, albedo.a);

@@ -70,7 +70,7 @@ void main() {
     float tint = mix(NIGHT_TINT, DAY_TINT, t);
     vec3 sunWarm = mix(vec3(1.00, 0.98, 0.95), vec3(1.14, 0.92, 0.72), t);
 
-    vec3 c = albedo.rgb * (mix(0.06, 0.22, t) + 0.82 * toon * shadow * sunFactor(t) + baked * 0.35 + localLight);
+    vec3 c = albedo.rgb * (mix(0.07, 0.26, t) + 0.82 * toon * shadow * sunFactor(t) + baked * 0.35 + localLight);
     vec3 oreGlow = oreGlowColor(vMatId, albedo.rgb) * GLOWING_ORE_MULT;
     c += oreGlow;
     c += albedo.rgb * max(max(oreGlow.r, oreGlow.g), oreGlow.b) * 0.30;

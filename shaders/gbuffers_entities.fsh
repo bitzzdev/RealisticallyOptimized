@@ -30,7 +30,7 @@ void main() {
     float blockLight = clamp(vLm.x, 0.0, 1.0);
     float localLight = pow(blockLight, 1.10) * mix(1.35, 0.80, t);
 
-    vec3 c = albedo.rgb * (mix(0.07, 0.24, t) + 0.80 * toon * shadow * sunFactor(t) + localLight);
+    vec3 c = albedo.rgb * (mix(0.08, 0.28, t) + 0.80 * toon * shadow * sunFactor(t) + localLight);
     c = applyVibrance(c * sunWarm, mix(VIBRANCE, 1.0, t)) * tint;
     c = mix(c, entityColor.rgb, entityColor.a);
 
