@@ -17,8 +17,8 @@ void main() {
     float rain = clamp(rainStrength, 0.0, 1.0);
 
     vec3 c = albedo.rgb;
-    c *= mix(1.45, 1.25, t);
-    c *= mix(1.0, 0.55, rain);
+    c *= mix(0.50, 1.30, t);
+    c *= mix(1.0, 0.40, rain);
     c = applyVibrance(c, 1.0);
 
     gl_FragData[0] = vec4(c, albedo.a);

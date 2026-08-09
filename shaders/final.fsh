@@ -82,13 +82,14 @@ void main() {
     col.rgb = applyVibrance(col.rgb, VIBRANCE + 0.15);
 
     vec3 worldTone = tonemapReinhard(col.rgb);
-    float skyBoost = mix(1.50, 1.08, t);
+    float rain = clamp(rainStrength, 0.0, 1.0);
+    float skyBoost = mix(1.50, 1.08, t) * mix(1.0, 0.45, rain);
 
     vec3 skyColor = col.rgb * skyBoost;
     vec3 worldColor = worldTone * mix(0.80, 1.30, t);
 
     float cloudMask = texture2D(colortex1, vTex).r;
-    vec3 cloudColor = col.rgb * mix(1.20, 1.05, t);
+    vec3 cloudColor = col.rgb * mix(1.0, 1.06, t);
 
     vec3 sceneColor = mix(worldColor, skyColor, skyMask);
     col.rgb = mix(sceneColor, cloudColor, cloudMask);
