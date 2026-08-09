@@ -80,12 +80,13 @@ void main() {
 
     col.rgb = applyVibrance(col.rgb, VIBRANCE + 0.15);
 
-    col.rgb = tonemapReinhard(col.rgb);
+    vec3 worldTone = tonemapReinhard(col.rgb);
+    float skyBoost = mix(1.50, 1.08, t);
 
-    float skyBoost = mix(1.35, 1.20, t);
-    col.rgb *= mix(1.0, skyBoost, skyMask);
+    vec3 skyColor = col.rgb * skyBoost;
+    vec3 worldColor = worldTone * mix(0.65, 1.12, t);
 
-    col.rgb *= mix(0.65, 1.12, t);
+    col.rgb = mix(worldColor, skyColor, skyMask);
 
     float blueFactor = clamp((1.0 - t) * 0.70 + rainStrength * 0.55, 0.0, 1.0);
     vec3 blueTint = vec3(0.86, 0.94, 1.16);
