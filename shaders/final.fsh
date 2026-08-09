@@ -3,6 +3,7 @@
 #define OUTLINE_WIDTH 1 // [1 2 3 4]
 #define OUTLINE_BRIGHTNESS 1.50 // [0.50 0.75 1.00 1.25 1.50 1.75 2.00 2.50 3.00 4.00]
 #define BORDER_EXPERIMENTAL
+#define WORLD_RENDER_DISTANCE 256.0 // [96.0 128.0 160.0 192.0 224.0 256.0 320.0 384.0 512.0 1024.0]
 
 varying vec2 vTex;
 
@@ -92,6 +93,11 @@ void main() {
     vec3 cloudColor = col.rgb * mix(1.0, 1.06, t);
 
     vec3 sceneColor = mix(worldColor, skyColor, skyMask);
+
+    float viewDist = getLinearDepth(rawDepth) * far;
+    float borderFade = 1.0 - smoothstep(WORLD_RENDER_DISTANCE * 0.75, WORLD_RENDER_DISTANCE, viewDist);
+    sceneColor = mix(sceneColor, skyColor, (1.0 - skyMask) * (1.0 - borderFade));
+
     col.rgb = mix(sceneColor, cloudColor, cloudMask);
 
     float blueFactor = clamp((1.0 - t) * 0.70 + rainStrength * 0.55, 0.0, 1.0);
